@@ -1,4 +1,4 @@
-### This folder contains all materials, that were used throughout the course of the experiments. 
+### This table contains all materials, that were used throughout the course of the experiments. 
 
 #### Setup
 | Item                                              | Supplier                                        |
