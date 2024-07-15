@@ -4,7 +4,7 @@
 |----------|----------|
 | getBehavioralMetrics.m | Get whisker angles, curvature, and contact points. References getHeadAngle.m, getWhiskerCurvature.m and getBaseAngle.m scripts. |
 | analyzeBehavioralMetrics.m | Compare whisker angles and whisker cycles of different conditions. |
-| combinedAnimalBehavior.m | Look at combined behavioral data of animal cohort. |
 | individualAnimalBehavior.m | Analyze behavioral metrics of individual animals. |
+| Population_Analysis.m | Plots population performance over trials.
 | analyzePositionalData.m | Heat map of positional data and mean velocity plots. |
 | apertureDecoding.m | Get decoding accuracy of different brain areas. |
