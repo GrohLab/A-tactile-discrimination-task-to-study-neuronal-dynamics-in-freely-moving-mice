@@ -10,16 +10,42 @@ cohorts = arrayfun(@(x) num2str(x), 1:numel(animalData.cohort), 'UniformOutput',
 answer = listdlg('ListString',cohorts,'PromptString','Choose your cohort (11, 12, 15, 16 for Manuscript-Plots).');
 cohorts = cellfun(@str2double, cohorts(answer));
 
+if sum(ismember(16, cohorts))
+    answer = questdlg('You picked cohort 16! The code only works with cohort 16 if the cohort order is: 11, 12, 15, 16. Did you picked those cohorts?');
+    switch answer
+        case 'Yes'
+        case 'No'
+            error('Choose other cohorts')
+    end
+end
+
+if sum(ismember(12, cohorts))
+    answer = questdlg('Do you want to analyse repeated rule switches?');
+    switch answer
+        case 'Yes'
+            error('For anlysing repeated rule switches use LearningSpeed_Cohort12.m')
+        case 'No'
+    end
+end
+
+if sum(ismember([18, 19], cohorts))
+    error('This code does not work with Cohort 18 or 19, use LearningSpeed_DREADDs.m (found in https://github.com/0815Phine/LabrotationSalience.git)')
+end
+
 % points to the values of learning time for each animal
 FieldofChoice = {'intersec_initial', 'intersec_second'};
 
-if sum(ismember([18, 19], cohorts))
-    error('This code does not work with Cohort 18 or 19, use LearningSpeed_DREADDs.m')
+% add the contrast used for each cohort, keep the same shape as used for the cohorts variable
+if cohorts == [11 12 15 16]
+    contrast16 = [14,16]; %because 16 was trained on two different contrasts
+    contrastOrder = [20,20,12,NaN];
+else
+    contrastOrder = 20; % indicate the contrast order here, has to be changed according to the cohorts you want to analyze
 end
 
-% add the contrast used for each cohort, keep the same shape as used for the cohorts variable
-contrast16 = [14,16]; %because 16 was trained on two different contrasts
-contrastOrder = [20,20,12,NaN]; %this has to be changed according to the cohorts you want to analyze
+if length(cohorts) ~= length(contrastOrder)
+    error('You picked less cohorts than contrasts were indicated, check the variable contrastOrder and adjust accordingly')
+end
 
 %% create Speed-cell with speed per animal for each cohort
 % we will create two cells for each rule set
@@ -69,11 +95,13 @@ end
 Speed_ini_contrast = Speed_ini_co;
 Speed_swi_contrast = Speed_swi_co;
 % first we break down cohort 16
-for rowIDX = 1:height(Speed_ini_contrast)
-    Speed_co16 = horzcat(Speed_ini_contrast{rowIDX,4});
-    Speed_ini_contrast{rowIDX,4} = horzcat(Speed_co16{1},Speed_co16{2});
-    Speed_co16 = horzcat(Speed_swi_contrast{rowIDX,4});
-    Speed_swi_contrast{rowIDX,4} = horzcat(Speed_co16{1},Speed_co16{2});
+if cohorts == [11 12 15 16]
+    for rowIDX = 1:height(Speed_ini_contrast)
+        Speed_co16 = horzcat(Speed_ini_contrast{rowIDX,4});
+        Speed_ini_contrast{rowIDX,4} = horzcat(Speed_co16{1},Speed_co16{2});
+        Speed_co16 = horzcat(Speed_swi_contrast{rowIDX,4});
+        Speed_swi_contrast{rowIDX,4} = horzcat(Speed_co16{1},Speed_co16{2});
+    end
 end
 
 % change the format
@@ -91,20 +119,14 @@ Speed_swi_contrast(:,isnan(Speed_swi_contrast(1,:))) = [];
 %     Speed_ini_contrast(:,21) = [];
 % end
 
-%% Calculating mean and std for each contrast
-% we call the contrast deltaA to not run into errors with the contrast function
-contrast = unique(Speed_ini_contrast(2,:));
-speed_mean = arrayfun(@(c) mean(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==c)), contrast);
-speed_mean(2,:) = arrayfun(@(c) mean(Speed_swi_contrast(1,Speed_swi_contrast(2,:)==c)), contrast);
-speed_std = arrayfun(@(c) std(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==c),0,2,'omitnan'), contrast);
-speed_std(2,:) = arrayfun(@(c) std(Speed_swi_contrast(1,Speed_swi_contrast(2,:)==c),0,2,'omitnan'), contrast);
-
 %% Comparison between contrasts
 % Boxcharts (initial and reversed rule)
 figure; boxchart(Speed_ini_contrast(2,:), Speed_ini_contrast(1,:), 'BoxFaceColor', [0.1294 0.4 0.6745], 'MarkerStyle', 'none')
 hold on; boxchart(Speed_swi_contrast(2,:), Speed_swi_contrast(1,:), 'BoxFaceColor', [0.9373 0.5412 0.3843], 'MarkerStyle', 'none')
 %scatter(Speed_ini_contrast(2,:), Speed_ini_contrast(1,:),'k','.')
 %scatter(Speed_swi_contrast(2,:), Speed_swi_contrast(1,:),'MarkerEdgeColor', [0.5,0.5,0.5],'Marker','.')
+
+contrast = unique(Speed_ini_contrast(2,:));
 speed_max = vertcat(arrayfun(@(c) max(Speed_ini_contrast(1, Speed_ini_contrast(2,:) == c)),contrast),...
     arrayfun(@(c) max(Speed_swi_contrast(1, Speed_swi_contrast(2,:) == c)),contrast));
 speed_max = max(speed_max);
@@ -129,20 +151,22 @@ legend('Initial rule','Reversed rule','Location','southeast','Box','off')
 
 %% Comparison between initial and reversed rule
 % compare the learning time as a factor between the switched and initial rule
-% first adjust the speed_ini_contrast array so it only contains animals trained on both rules
-% -> for now this is hard-coded !!!!
-speed_ini_adjust = Speed_ini_contrast;
-speed_ini_adjust(:,21) = []; speed_ini_adjust(:,14:18) = [];
+if cohorts == [11 12 15 16]
+    % first adjust the speed_ini_contrast array so it only contains animals trained on both rules
+    % -> for now this is hard-coded !!!!
+    speed_ini_adjust = Speed_ini_contrast;
+    speed_ini_adjust(:,21) = []; speed_ini_adjust(:,14:18) = [];
 
-% now we calculate the factor for each contrast and compare them to contrast 20mm
-factor = arrayfun(@(c) Speed_swi_contrast(1,Speed_swi_contrast(2,:)==c)./speed_ini_adjust(1,speed_ini_adjust(2,:)==c), contrast, 'UniformOutput', false);
-factor_mean = mean([factor{:}]);
-for i = 1:length(factor)-1
-    [p,~] = ranksum(factor{1,4},factor{1,i},'tail','right');
-    if p <= 0.05
-        fprintf('The factor between contrast 20mm and contrast %dmm is significantly different (p=%.2f).\n', contrast(i), p)
-    else
-        fprintf('The factor between contrast 20mm and contrast %dmm is not significantly different (p=%.2f).\n', contrast(i), p)
+    % now we calculate the factor for each contrast and compare them to contrast 20mm
+    factor = arrayfun(@(c) Speed_swi_contrast(1,Speed_swi_contrast(2,:)==c)./speed_ini_adjust(1,speed_ini_adjust(2,:)==c), contrast, 'UniformOutput', false);
+    factor_mean = mean([factor{:}]);
+    for i = 1:length(factor)-1
+        [p,~] = ranksum(factor{1,4},factor{1,i},'tail','right');
+        if p <= 0.05
+            fprintf('The factor between contrast 20mm and contrast %dmm is significantly different (p=%.2f).\n', contrast(i), p)
+        else
+            fprintf('The factor between contrast 20mm and contrast %dmm is not significantly different (p=%.2f).\n', contrast(i), p)
+        end
     end
 end
 
@@ -160,12 +184,12 @@ for i = 1:length(Speed_swi_20)
     plot([1,2],[Speed_ini_20(i),Speed_swi_20(i)],'Color','k','LineStyle',':')
 end
 % plot the mean
-plot([1,2],[mean(Speed_ini_20(1:length(Speed_swi_20))), speed_mean(2,4)], 'Color', 'k', 'LineWidth', 1.5)
+plot([1,2],[mean(Speed_ini_20), mean(Speed_swi_20)], 'Color', 'k', 'LineWidth', 1.5)
 %statistics
 [~,p_paired] = ttest(Speed_ini_20(1,1:length(Speed_swi_20)), Speed_swi_20);
 plotStatistics(p_paired, speed_max(contrast == 20), 1, 2)
-errorbar(0.9,mean(Speed_ini_20(1:length(Speed_swi_20))),speed_std(1,4), 'o', 'MarkerFaceColor', [0.1294 0.4 0.6745], 'Color', [0.1294 0.4 0.6745])
-errorbar(2.1,mean(Speed_swi_20),speed_std(2,4), 'o', 'MarkerFaceColor', [0.9373 0.5412 0.3843], 'Color', [0.9373 0.5412 0.3843])
+errorbar(0.9,mean(Speed_ini_20),std(Speed_ini_20), 'o', 'MarkerFaceColor', [0.1294 0.4 0.6745], 'Color', [0.1294 0.4 0.6745])
+errorbar(2.1,mean(Speed_swi_20),std(Speed_swi_20), 'o', 'MarkerFaceColor', [0.9373 0.5412 0.3843], 'Color', [0.9373 0.5412 0.3843])
 % add labels and title
 title('Learning time per animal')
 xticks([1,2]), xticklabels({'Initial rule','Reversed rule'})
