@@ -16,12 +16,24 @@ stages = getstagenames(cohortData);
 answer = listdlg('ListString',stages,'PromptString','Choose stages.');
 stages = stages(answer);
 
+if sum(ismember({'P3.7','P3.8'}, stages))
+    answer = questdlg('Do you want to analyse repeated rule switches?');
+    switch answer
+        case 'Yes'
+            error('For anlysing repeated rule switches use Population_Analysis_Cohort12.m')
+        case 'No'
+            warning('The stages you choosed might result in errors throughout the script, double check for compatibility')
+    end
+end
+
 %% plotting
-figure
+close all; fig_trials = figure; fig_sessions = figure;
+color_map = [[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843]];
 numMice = arrayfun(@(x) length(animalData.cohort(x).animal), cohorts);
 max_dvalue = max(arrayfun(@(m) length(cohortData(m).dvalues_trials), 1:sum(numMice)));
 
-alldvalues = NaN(max_dvalue,sum(numMice));
+alldvalues_trials = NaN(max_dvalue,sum(numMice));
+alldvalues_sessions = NaN(max_dvalue,sum(numMice));
 for stageIDX = 1:length(stages)
     for mouseIDX = 1:length(cohortData)
         % last session stage 1
@@ -35,6 +47,12 @@ for stageIDX = 1:length(stages)
             continue
         end
 
+        % dprime over sessions
+        dvalues = cohortData(mouseIDX).dvalues_sessions(sesFlag_first:sesFlag_last);
+        alldvalues_sessions(1:length(dvalues),mouseIDX) = dvalues;
+        clear dvalues
+
+        % dprime over trials
         if strcmp(stages{stageIDX}, 'P3.2')
             trialFlag = sum(cellfun(@numel, cohortData(mouseIDX).Lick_Events(sesFlag_first:sesFlag_last)));
             if trialFlag == 0
@@ -58,42 +76,54 @@ for stageIDX = 1:length(stages)
                 dvalues(1:200) = [];
             end
         end
-
-        %xvalues = (201:length(dvalues)+200)';
-        %plot(xvalues, dvalues, 'Color', '#bfbfbf'), hold on
-
-        alldvalues(1:length(dvalues),mouseIDX) = dvalues;
+        alldvalues_trials(1:length(dvalues),mouseIDX) = dvalues;
         clear dvalues
     end
-    
-    color_map = [[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843]; [0.9922 0.8588 0.7804]; [0.8392 0.3765 0.302]];
-    trials_dprime_mean = mean(alldvalues,2,'omitnan'); trials_dprime_mean(isnan(trials_dprime_mean)) =[];
-    trials_dprime_std = std(alldvalues,0,2,'omitnan'); trials_dprime_std(isnan(trials_dprime_std)) =[];
-    curve1 = trials_dprime_mean + trials_dprime_std;
-    curve2 = trials_dprime_mean - trials_dprime_std;
-    %plot(201:length(curve1)+200, curve1,'Color','#4d4d4d'); hold on
-    %plot(201:length(curve2)+200, curve2,'Color','#4d4d4d')
-    fill([(1:length(curve1))+200 fliplr((1:length(curve1))+200)], [curve1' fliplr(curve2')],[0 0 .85],...
-        'FaceColor',color_map(stageIDX,:), 'EdgeColor','none','FaceAlpha',0.5); hold on
-    plot((1:length(trials_dprime_mean))+200,trials_dprime_mean, 'Color', color_map(stageIDX,:), 'LineWidth', 2)
 
-    alldvalues = NaN(max_dvalue,sum(numMice));
+    alldvalues.trials = alldvalues_trials;
+    alldvalues.sessions = alldvalues_sessions;
+    xfield= fieldnames(alldvalues);
+    for fieldIDX = 1:length(xfield)
+        dprime_mean = mean(alldvalues.(xfield{fieldIDX}),2,'omitnan'); dprime_mean(isnan(dprime_mean)) =[];
+        dprime_std = std(alldvalues.(xfield{fieldIDX}),0,2,'omitnan'); dprime_std(isnan(dprime_std)) =[];
+        curve1 = dprime_mean + dprime_std;
+        curve2 = dprime_mean - dprime_std;
 
-    %learntime = find(trials_dprime_mean>1.65,1);
-    if strcmp(stages{stageIDX}, 'P3.2')
-        learntime = mean(vertcat(cohortData.intersec_initial));
-        plot([learntime learntime], [-2 1.65], 'Color', color_map(stageIDX,:),  'LineWidth', 1.5, 'LineStyle', ':')
-    elseif strcmp(stages{stageIDX}, 'P3.4')
-        learntime = mean(vertcat(cohortData.intersec_second));
-        plot([learntime learntime], [-2 1.65], 'Color', color_map(stageIDX,:),  'LineWidth', 1.5, 'LineStyle', ':')
-    else
-        continue
+        if strcmp(xfield{fieldIDX}, 'trials')
+            figure(fieldIDX)
+            fill([(1:length(curve1))+200 fliplr((1:length(curve1))+200)], [curve1' fliplr(curve2')],[0 0 .85],...
+                'FaceColor',color_map(stageIDX,:), 'EdgeColor','none','FaceAlpha',0.5); hold on
+            plot((1:length(dprime_mean))+200,dprime_mean, 'Color', color_map(stageIDX,:), 'LineWidth', 2)
+
+            if strcmp(stages{stageIDX}, 'P3.2')
+                learntime = mean(vertcat(cohortData.intersec_initial));
+                plot([learntime learntime], [-2 1.65], 'Color', color_map(stageIDX,:),  'LineWidth', 1.5, 'LineStyle', ':')
+            elseif strcmp(stages{stageIDX}, 'P3.4')
+                learntime = mean(vertcat(cohortData.intersec_second));
+                plot([learntime learntime], [-2 1.65], 'Color', color_map(stageIDX,:),  'LineWidth', 1.5, 'LineStyle', ':')
+            else
+                continue
+            end
+        elseif strcmp(xfield{fieldIDX}, 'sessions')
+            figure(fieldIDX)
+            fill([1:length(curve1) fliplr(1:length(curve1))], [curve1' fliplr(curve2')],[0 0 .85],...
+                'FaceColor',color_map(stageIDX,:), 'EdgeColor','none','FaceAlpha',0.5); hold on
+            plot((1:length(dprime_mean)),dprime_mean, 'Color', color_map(stageIDX,:), 'LineWidth', 2)
+
+            learntime = find(dprime_mean>1.65,1);
+            plot([learntime learntime], [-3 1.65], 'Color', color_map(stageIDX,:),  'LineWidth', 1.5, 'LineStyle', ':')
+        end
     end
+
+    alldvalues_trials = NaN(max_dvalue,sum(numMice));
+    alldvalues_sessions = NaN(max_dvalue,sum(numMice));
 end
 
-xlabel('Trials')
-ylabel('d prime')
-yline([1.65, 1.65],'Color','black','LineStyle','--')
-%yline([0, 0],'Color',[.7 .7 .7],'LineStyle','--')
-title ('Population performance over trials')
-legend('','Initial rule','','','Reversed rule','Location','southeast','Box','off')
+for fieldIDX = 1:length(xfield)
+    figure(fieldIDX)
+    xlabel(sprintf('%s', xfield{fieldIDX})); ylabel('d prime')
+    yline([1.65, 1.65],'Color','black','LineStyle','--')
+    %yline([0, 0],'Color',[.7 .7 .7],'LineStyle','--')
+    title (sprintf('Population performance over %s', xfield{fieldIDX}))
+    legend('','Initial rule','','','Reversed rule','Location','southeast','Box','off')
+end
