@@ -70,7 +70,7 @@ experttrials_swi = mean(alltrials_swi(:,numSes+1:numSes*2), 2);
 
 % Statistics and normalization
 %[p2,~] = signrank(naivetrials_swi, experttrials_swi);
-[~,p2] = ttest(naivetrials_ini, experttrials_ini);
+[~,p2] = ttest(naivetrials_swi, experttrials_swi);
 %ztrials_swi = zscore(alltrials_swi,0,2);
 
 %% plot data initial rule

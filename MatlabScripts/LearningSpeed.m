@@ -36,11 +36,11 @@ end
 FieldofChoice = {'intersec_initial', 'intersec_second'};
 
 % add the contrast used for each cohort, keep the same shape as used for the cohorts variable
-if cohorts == [11 12 15 16]
+if isequal(cohorts, [11 12 15 16])
     contrast16 = [14,16]; %because 16 was trained on two different contrasts
     contrastOrder = [20,20,12,NaN];
 else
-    contrastOrder = 20; % indicate the contrast order here, has to be changed according to the cohorts you want to analyze
+    contrastOrder = ones(1,length(cohorts))*20; % indicate the contrast order here, has to be changed according to the cohorts you want to analyze
 end
 
 if length(cohorts) ~= length(contrastOrder)
@@ -95,7 +95,7 @@ end
 Speed_ini_contrast = Speed_ini_co;
 Speed_swi_contrast = Speed_swi_co;
 % first we break down cohort 16
-if cohorts == [11 12 15 16]
+if isequal(cohorts, [11 12 15 16])
     for rowIDX = 1:height(Speed_ini_contrast)
         Speed_co16 = horzcat(Speed_ini_contrast{rowIDX,4});
         Speed_ini_contrast{rowIDX,4} = horzcat(Speed_co16{1},Speed_co16{2});
@@ -131,7 +131,7 @@ speed_max = vertcat(arrayfun(@(c) max(Speed_ini_contrast(1, Speed_ini_contrast(2
     arrayfun(@(c) max(Speed_swi_contrast(1, Speed_swi_contrast(2,:) == c)),contrast));
 speed_max = max(speed_max);
 
-for contrastIDX = 1:length(contrastOrder)
+for contrastIDX = 1:length(unique(contrastOrder))
     if length(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX))) == length(Speed_swi_contrast(1,Speed_swi_contrast(2,:)==contrast(contrastIDX)))
         [~,p] = ttest(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX)),...
             Speed_swi_contrast(1,Speed_swi_contrast(2,:)==contrast(contrastIDX)));
@@ -151,7 +151,7 @@ legend('Initial rule','Reversed rule','Location','southeast','Box','off')
 
 %% Comparison between initial and reversed rule
 % compare the learning time as a factor between the switched and initial rule
-if cohorts == [11 12 15 16]
+if isequal(cohorts, [11 12 15 16])
     % first adjust the speed_ini_contrast array so it only contains animals trained on both rules
     % -> for now this is hard-coded !!!!
     speed_ini_adjust = Speed_ini_contrast;
