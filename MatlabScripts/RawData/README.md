@@ -3,3 +3,4 @@
 | File               | Description                                                                                      |
 |--------------------|--------------------------------------------------------------------------------------------------|
 |animalData.mat      |Conatins the read out of behavioral data, such as performance, trial number, or learning speed.   |
+|animalData.mat      |Contains calcium imaging data for the sample session for the sample animal imaged with miniscope.   |
