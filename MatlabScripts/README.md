@@ -8,3 +8,4 @@
 | Population_Analysis.m | Plots population performance over trials.
 | analyzePositionalData.m | Heat map of positional data and mean velocity plots. |
 | apertureDecoding.m | Get decoding accuracy of different brain areas. |
+| Scripts_for_figures_calciumimaging.m | Plot all the figures for Figure 5 calcium imaging data |
