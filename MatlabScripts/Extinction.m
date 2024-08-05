@@ -1,5 +1,7 @@
 %% Extinction
 % only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
 %% create dprime-array for sessions 
 % -> last four sessions intial rule, reversed rule and first four sessions extinction

@@ -1,5 +1,9 @@
 %% Backlights
-% load relevant Cohort Data
+% only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
+
+%% load relevant Cohort Data
 cohortData = animalData.cohort(18).animal;
 numMice = length(cohortData);
 

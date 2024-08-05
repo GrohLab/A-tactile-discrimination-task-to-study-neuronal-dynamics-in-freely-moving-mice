@@ -1,5 +1,7 @@
 %% Performance before and after whiskerpluck
 % only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
 %% create whiskerpluck table
 animalSelection = [11 17]; %only cohorts with whiskerpluck

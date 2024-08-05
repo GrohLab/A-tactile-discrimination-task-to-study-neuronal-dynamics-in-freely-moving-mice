@@ -1,6 +1,9 @@
 %% Popualtion performance over contrast
 % only works if animalData.m is loaded
-% load Cohort Data
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
+
+%% load Cohort Data
 cohortFlag = 14; %only cohort 14 was trained with the decreasing contrast protocol
 cohort_Data = animalData.cohort(cohortFlag).animal;
 cohort_Table = create_cohort_table(cohort_Data);

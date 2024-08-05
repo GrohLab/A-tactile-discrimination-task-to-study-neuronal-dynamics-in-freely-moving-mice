@@ -1,5 +1,7 @@
 %% Trial count for initial and reversed rule
 % only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
 %% choose cohorts and number of sessions
 cohorts = arrayfun(@(x) num2str(x), 1:numel(animalData.cohort), 'UniformOutput', false);

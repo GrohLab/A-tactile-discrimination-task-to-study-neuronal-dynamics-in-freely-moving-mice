@@ -1,4 +1,9 @@
 %% Population trial d'prime initial rules cohort 16
+% only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
+
+%% load relevent cohort data
 cohorts = 16;
 cohortData = animalData.cohort(cohorts).animal;
 

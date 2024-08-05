@@ -1,5 +1,9 @@
 %% Performance with lidocaine application
+% only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
+%% load relevent Cohort Data
 cohorts = [11,12]; %only animals from these cohorts were tested with lidocaine on the whiskerpad
 sesFlag = 'P3.5'; %the stage for all animals was P3.5
 miceFlag11 = 2; %only animal 2 form cohort 11 became lidocaine application

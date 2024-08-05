@@ -1,5 +1,7 @@
 %% Lick rates for initial rule, neutral stage and reversed rule
 % only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
 %% choose cohorts
 cohorts = arrayfun(@(x) num2str(x), 1:numel(animalData.cohort), 'UniformOutput', false);

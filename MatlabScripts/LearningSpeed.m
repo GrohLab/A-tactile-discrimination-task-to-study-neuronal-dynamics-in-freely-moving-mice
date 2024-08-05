@@ -1,5 +1,7 @@
 %% Learning time and speed
 % only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
 
 %% Gather information
 % for contrast=20mm cohorts have to be pooled later on

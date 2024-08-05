@@ -1,3 +1,8 @@
+%% Population trial d'prime initial rules cohort 12
+% only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
+% load relevent cohort data
 cohortData = horzcat(animalData.cohort(12).animal);
 
 %% choose stages

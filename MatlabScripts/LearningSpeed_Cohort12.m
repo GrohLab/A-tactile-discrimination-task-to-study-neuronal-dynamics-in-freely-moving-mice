@@ -1,3 +1,9 @@
+%% Learning time cohort 12
+% only works if animalData.m is loaded
+currentFolder = pwd;
+load(fullfile(currentFolder,'/RawData/animalData'))
+
+% load relevant cohort data
 cohort_Data = animalData.cohort(12).animal;
 
 FieldofChoice = {'intersec_initial', 'intersec_second'};
