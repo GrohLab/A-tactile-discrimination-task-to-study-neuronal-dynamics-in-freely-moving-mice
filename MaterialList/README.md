@@ -5,9 +5,9 @@
 |---------------------------------------------------|-------------------------------------------------|
 | Linear track (dimensions, material)               | Custom built, Lee Embray, Heidelberg            |
 | Apertures (dimensions, material) + motors (model, supplier) | Lee Embray, Heidelberg                |
-| Lickport (Coaxial cable and vasofix cannulas) + piezo sensor (model, supplier) | STC and BRAUN,
-built by Lee Embray, Heidelberg |
-| Lickport controller box                           | Cornelius Schwarz, Tübingen                     |
+| Vasofix® Safety Braunüle® FEP G16                 | B. Braun SE, Melsungen, Germany                 |
+| Piezo sensor (#285-784)                           | RS components GmbH, Mörfelden-Walldorf, Germany |
+| Lickport controller box                           | Cornelius Schwarz, Tübingen (Schwarz et al., 2010) |
 | Lightbeams and sensors (model, supplier, wavelength) | Lee Embray, Heidelberg                       |
 | Arduino controller box                            | Lee Embray, Heidelberg                          |
 | LED strips for overhead illumination (Synergy 21 LED Flex Strip infrarot IR 12 12V IP65 Security Line 850nm, #140455) | ALLNET GmbH, Germering, Germany |
