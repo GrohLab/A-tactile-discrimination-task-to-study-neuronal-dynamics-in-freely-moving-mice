@@ -3,9 +3,11 @@
 currentFolder = pwd;
 load(fullfile(currentFolder,'/RawData/animalData'))
 % load relevent cohort data
-cohortData = horzcat(animalData.cohort(12).animal);
+cohorts = [12];
+cohortData = horzcat(animalData.cohort(cohorts).animal);
 
 %% choose stages
+% P3.2 initial rule; P3.4 rversed rule; P3.7 2nd reversal; P3.8 3rd reversal
 stages = getstagenames(cohortData);
 answer = listdlg('ListString',stages,'PromptString','Choose stages.');
 stages = stages(answer);

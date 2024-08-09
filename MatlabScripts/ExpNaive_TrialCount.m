@@ -42,7 +42,7 @@ naivetrials_ini = mean(alltrials_ini(:,1:numSes), 2);
 experttrials_ini = mean(alltrials_ini(:,numSes+1:numSes*2), 2);
 
 % Statistics and normalization
-[~,p1] = ttest(naivetrials_ini, experttrials_ini);
+[~,p1,ci1,stats1] = ttest(naivetrials_ini, experttrials_ini);
 %ztrials_ini = zscore(alltrials_ini,0,2);
 
 %% Reversed rule (should be called P3.4) expert vs. naive
@@ -72,7 +72,7 @@ experttrials_swi = mean(alltrials_swi(:,numSes+1:numSes*2), 2);
 
 % Statistics and normalization
 %[p2,~] = signrank(naivetrials_swi, experttrials_swi);
-[~,p2] = ttest(naivetrials_swi, experttrials_swi);
+[~,p2,ci2,stats2] = ttest(naivetrials_swi, experttrials_swi);
 %ztrials_swi = zscore(alltrials_swi,0,2);
 
 %% plot data initial rule

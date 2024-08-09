@@ -29,7 +29,7 @@ for stageIDX = 1:length(stages)
 end
 
 % Statistics
-[~,p1] = ttest(SesCountini, SesCountsec);
+[~,p1,ci,stats] = ttest(SesCountini, SesCountsec);
 
 %% line plot with errorbars
 figure, hold on

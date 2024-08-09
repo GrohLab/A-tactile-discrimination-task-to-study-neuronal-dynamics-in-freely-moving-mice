@@ -26,7 +26,7 @@ end
 prepluckFlag = whiskerpluck_table(:, 2) == -1;
 postpluckFlag = whiskerpluck_table(:, 2) == 1;
 
-[~,p_paired] = ttest(whiskerpluck_table(prepluckFlag,1),whiskerpluck_table(postpluckFlag,1));
+[~,p_paired,ci,stats] = ttest(whiskerpluck_table(prepluckFlag,1),whiskerpluck_table(postpluckFlag,1));
 if p_paired < 0.05
     fprintf('The d prime is significantly different before and after the whiskerpluck. p =  %.3f\n', p_paired)
 else

@@ -133,9 +133,9 @@ speed_max = vertcat(arrayfun(@(c) max(Speed_ini_contrast(1, Speed_ini_contrast(2
     arrayfun(@(c) max(Speed_swi_contrast(1, Speed_swi_contrast(2,:) == c)),contrast));
 speed_max = max(speed_max);
 
-for contrastIDX = 1:length(unique(contrastOrder))
+for contrastIDX = 1:length(contrast)
     if length(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX))) == length(Speed_swi_contrast(1,Speed_swi_contrast(2,:)==contrast(contrastIDX)))
-        [~,p] = ttest(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX)),...
+        [~,p,ci,stats] = ttest(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX)),...
             Speed_swi_contrast(1,Speed_swi_contrast(2,:)==contrast(contrastIDX)));
     else %% not all animals were trained with both rule sets
         [p,~] = ranksum(Speed_ini_contrast(1,Speed_ini_contrast(2,:)==contrast(contrastIDX)),...
@@ -188,7 +188,7 @@ end
 % plot the mean
 plot([1,2],[mean(Speed_ini_20), mean(Speed_swi_20)], 'Color', 'k', 'LineWidth', 1.5)
 %statistics
-[~,p_paired] = ttest(Speed_ini_20(1,1:length(Speed_swi_20)), Speed_swi_20);
+[~,p_paired,ci,stats] = ttest(Speed_ini_20(1,1:length(Speed_swi_20)), Speed_swi_20);
 plotStatistics(p_paired, speed_max(contrast == 20), 1, 2)
 errorbar(0.9,mean(Speed_ini_20),std(Speed_ini_20), 'o', 'MarkerFaceColor', [0.1294 0.4 0.6745], 'Color', [0.1294 0.4 0.6745])
 errorbar(2.1,mean(Speed_swi_20),std(Speed_swi_20), 'o', 'MarkerFaceColor', [0.9373 0.5412 0.3843], 'Color', [0.9373 0.5412 0.3843])
@@ -214,7 +214,7 @@ for i = 1:length(Slope_swi_20)
 end
 plot([1,2],[Slope_ini_mean , Slope_swi_mean], 'Color', 'k', 'LineWidth', 2)
 
-[~,p_paired] = ttest(Slope_ini_20, Slope_swi_20);
+[~,p_paired,ci,stats] = ttest(Slope_ini_20, Slope_swi_20);
 slope_max = max(horzcat(Slope_ini_20,Slope_swi_20));
 plotStatistics(p_paired,slope_max,1,2)
 errorbar(0.9,Slope_ini_mean,Slope_ini_std, 'o', 'MarkerFaceColor', [0.1294 0.4 0.6745], 'Color', [0.1294 0.4 0.6745])
