@@ -2,9 +2,7 @@
 
 | File | Description |
 |----------|----------|
-| analyzeBehavioralMetrics.m | Compare whisker angles and whisker cycles of different conditions. |
-| analyzePositionalData.m | Heat map of positional data and mean velocity plots. |
-| apertureDecoding.m | Get decoding accuracy of different brain areas. |
+| analyzePositionalData.m | Loads the positional data from the RawData directory and generates a heat map of positional data and mean velocity plots. |
 | Scripts_for_figures_calciumimaging.m | Plot all the figures for Figure 5 calcium imaging data |
 | Backlights.m | Compares population performance with and without backlights. |
 | decreasing_contrast.m | Compares population performance across contrasts. |
