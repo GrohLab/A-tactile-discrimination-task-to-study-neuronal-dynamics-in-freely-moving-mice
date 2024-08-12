@@ -37,6 +37,12 @@ dprimeLido = vertcat(alldvalues(2,:),alldvalues(4,:),alldvalues(6,:),alldvalues(
 dprime_all = horzcat(vertcat(dprimeBepa(:,1),dprimeBepa(:,2),dprimeBepa(:,3),dprimeBepa(:,4)),...
     vertcat(dprimeLido(:,1),dprimeLido(:,2),dprimeLido(:,3),dprimeLido(:,4)));
 
+%% statistics
+meanbepa = mean(dprimeBepa,1,'omitnan');
+meanlido = mean(dprimeLido,1,'omitnan');
+
+[~,p,ci,stats] = ttest(meanbepa, meanlido);
+
 %% plot data
 figure, hold on
 
