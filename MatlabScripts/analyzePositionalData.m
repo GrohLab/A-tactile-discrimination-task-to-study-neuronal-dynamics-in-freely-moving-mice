@@ -1,32 +1,11 @@
 %% Display overview video with underlay velocity plot 
 % Reference the file
 close all; clearvars; clc
-% Setup VideoReader object with overview video
-video_path = 'Z:\Filippo\Animals\Cohort12_33-38\#38\2021-11-16\P3.2_50pctReward_session16\videos\tis-camera\fd5a98-videoDLC_effnet_b0_BodytrackEIBNov10shuffle1_350000_labeled.mp4';
-curationPath = fullfile(fileparts(fileparts(fileparts(video_path))),'intan-signals\automatedCuration');
+currentFolder = pwd;
+fileName = fullfile(currentFolder,'\RawData\FrameInfo_OverviewVideo.mat');
+load(fileName,'FrameInfo')
 
-% Read the video
-v = VideoReader(video_path);
-nFrames = v.NumFrames; % Number of frames
-frameRate = v.FrameRate; % Frame rate
-
-if ~exist(fullfile(curationPath,'FrameInfo.mat'),'file')
-    answer = questdlg('Overview video metrics haven''t been analyzed for this file. Analyze now?', ...
-        'Analyze behavioral metrics', ...
-        'Yes','No','Yes');
-    if isequal(answer,'Yes')
-        LocomotionModulation(curationPath)
-    else
-        return
-    end
-end
-load(fullfile(curationPath,'FrameInfo.mat'),'FrameInfo')
-
-cohortNum = regexp(video_path,'Cohort(\d+)','tokens','once');
-animalNum = regexp(video_path,'#(\d+)','match');
-stageNum = regexp(video_path,'P3\.(\d+\.\d+|\d+)','tokens','once');
-sessionNum = regexp(video_path,'ses\D*(\d+)','tokens','once');
-
+frameRate = 60; % Frame rate
 positionOnMaze = cell2mat(FrameInfo.position);
 Xposition = positionOnMaze(:,1);
 
