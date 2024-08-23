@@ -8,13 +8,14 @@
 | Vasofix® Safety Braunüle® FEP G16                 | B. Braun SE, Melsungen, Germany                 |
 | Piezo sensor (#285-784)                           | RS components GmbH, Mörfelden-Walldorf, Germany |
 | Lickport controller box                           | Cornelius Schwarz, Tübingen (Schwarz et al., 2010) |
-| Lightbeams and sensors (model, supplier, wavelength) | Lee Embray, Heidelberg                       |
+| [Light Barrier](LightBarrier/info.md)             | Lee Embray, Heidelberg                       |
 | Arduino controller box                            | Lee Embray, Heidelberg                          |
+| [Aperture wings](ApertureGate/info.md)               | Lee Embray, Heidelberg                          |
 | LED strips for overhead illumination (Synergy 21 LED Flex Strip infrarot IR 12 12V IP65 Security Line 850nm, #140455) | ALLNET GmbH, Germering, Germany |
 | Backlight LEDs (HT-110IRPJ IR-Emitter 850 nm 140° 1204 SMD) | Harvatek Corporation, Hsinchu, Taiwan |
 | 2x High speed cameras (DMK 37BUX287)              | The Imaging Source Europe GmbH, Bremen, Germany |
 | Overview camera (DMK 37BUX290)                    | The Imaging Source Europe GmbH, Bremen, Germany |
-| Food dispensers (parts, model, supplier)          | Lee Embray, Heidelberg |
+| [Liquid Feeder](LiquidFeeder/info.md)             | Lee Embray, Heidelberg |
 | 2 ml syringes (BD Discardit II)                   | Becton Dickinson GmbH, Heidelberg, Germany |
 | Tubes with Luer connector (#4256000)              | B. Braun SE, Melsungen, Germany         |
 | Hifi integrated amplifier (A-S301)                | Yamaha Music Europe GmbH, Rellingen, Germany |
