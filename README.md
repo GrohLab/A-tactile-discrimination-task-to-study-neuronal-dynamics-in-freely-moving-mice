@@ -4,4 +4,4 @@
 
 **MaterialList**: Includes relevant setup items and experimental components necessary for reproducing the experiments.
 
-**MatlabScripts**: Contains all required scripts and raw data for replicating the figure legends.
+**DataAndScripts**: Contains all required scripts and raw data (**.\RawData**) for replicating the figure legends.
