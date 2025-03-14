@@ -1,6 +1,6 @@
-%% Scripts for Figure 5 calcium imaging
+%% Scripts for Figure 3 calcium imaging
 
-%% Get MIP for the sample video "Figure 5D"
+%% Get MIP for the sample video "Figure 3e left"
 
 % Load the video file
 videoFile = "Z:\Data\Avi_Data\Salience\ExperimentalCohort\59\2023-11-09\P3.2_50pctReward_session16\videos\miniscope\mscope.mkv"; % Replace with your video file path
@@ -40,7 +40,7 @@ figure
 imagesc(sum(AnimalData.Mouse59.s50pctReward.session16.CalciumData.SpatialFootprints,3))
 
 
-%% plot example whisker tuned cells "Figure 5G"
+%% plot example whisker tuned cells "Figure 3e middle"
 
 % The example whisker tuned cells are 14,22,28,29
 
@@ -59,7 +59,7 @@ end
 
 
 
-%% Align traces over trials "Figure 5H"
+%% Align traces over trials "Figure 3e right"
 
 % This is only being done for Cell 29
 
