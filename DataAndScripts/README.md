@@ -4,6 +4,7 @@
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | analyzePositionalData.m               | Loads the positional data from the RawData directory and generates a heat map of positional data and mean velocity plots. |
 | Backlights.m                          | Compares population performance with and without backlights.                                                              |
+| CNN_decoder_forCalciumImaging.m       | Code to train the CNN decoder and plot relevant figures in S3.                                                            |
 | decreasing_contrast.m                 | Compares population performance across contrasts.                                                                         |
 | ExpNaive_TrialCount.m                 | Counts trials per animal for initial and reversed rule.                                                                   |
 | Extinction.m                          | Compares population performance before and after extinction.                                                              |
