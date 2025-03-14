@@ -15,5 +15,5 @@
 | Population_Analysis.m                 | Plots population performance over trials.                                                                                 |
 | Population_Analysis_Cohort12.m        | Plots population performance over trials for only cohort 12 (repeated rule switches).                                     |
 | Population_Analysis_Cohort16.m        | Plots population performance over trials for only cohort 16 (contrast 14 mm and 16 mm).                                   |
-| Scripts_for_figures_calciumimaging.m  | Plot all the figures for Figure 5 calcium imaging data                                                                    |
+| Scripts_for_figures_calciumimaging.m  | Plot all the figures for Figure 3 calcium imaging data                                                                    |
 | whiskerpluck.m                        | Compares population performance before and after whiskerpluck.                                                            |
