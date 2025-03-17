@@ -106,3 +106,28 @@ plotStatistics(p2,maxexpert,1,2)
 title('Trials per session', 'Reversed rule')
 xticks([1 2]); xticklabels({'Naive','Expert'})
 ylabel('Trials')
+
+%% plot both together
+figure; hold on
+
+stage = {'ini', 'swi'};
+color_map = [[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843]];
+
+max_expert_all =  max([max(experttrials_ini), max(experttrials_swi)]);
+for stageIDX = 1:length(stage)
+    naive_trials = eval(['naivetrials_' stage{stageIDX}]);
+    expert_trials = eval(['experttrials_' stage{stageIDX}]);
+
+    errorbar(0.9,mean(naive_trials),std(naive_trials),'o','Color',color_map(stageIDX,:),'MarkerFaceColor',color_map(stageIDX,:))
+    errorbar(2.1,mean(expert_trials),std(expert_trials),'o','Color',color_map(stageIDX,:),'MarkerFaceColor',color_map(stageIDX,:))
+    for i = 1:length(expert_trials)
+        plot([1,2],[naive_trials(i),expert_trials(i)],'Color',color_map(stageIDX,:),'LineStyle','--')
+    end
+    plot([1,2],[mean(naive_trials),mean(expert_trials)],'Color',color_map(stageIDX,:),'LineWidth',2)
+    plotStatistics(p1,max_expert_all,1,2,color_map(stageIDX,:))
+end
+
+title('Trials per session')
+xticks([1 2]); xticklabels({'Naive','Expert'})
+ylabel('Trials')
+%legend
