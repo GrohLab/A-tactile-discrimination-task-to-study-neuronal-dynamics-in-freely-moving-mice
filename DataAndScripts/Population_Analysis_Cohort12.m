@@ -2,9 +2,23 @@
 % only works if animalData.m is loaded
 currentFolder = pwd;
 load(fullfile(currentFolder,'/RawData/animalData'))
-% load relevent cohort data
-cohorts = [12];
-cohortData = horzcat(animalData.cohort(cohorts).animal);
+
+%% choose cohorts
+cohorts = arrayfun(@(x) num2str(x), 1:numel(animalData.cohort), 'UniformOutput', false);
+answer = listdlg('ListString',cohorts,'PromptString','Choose your cohort.');
+cohorts = cellfun(@str2double, cohorts(answer));
+
+if sum(ismember(16, cohorts))
+    error('This code does not work with Cohort 16, use Population_Analysis_Cohort16.m')
+end
+
+cohortData = [];
+cohortIDs = []; % Store cohort identifiers
+for c = cohorts
+    cohortMice = animalData.cohort(c).animal; % Get mice for cohort c
+    cohortData = [cohortData, cohortMice];   % Append to full dataset
+    cohortIDs = [cohortIDs, repmat(c, 1, length(cohortMice))]; % Store cohort index
+end
 
 %% choose stages
 % P3.2 initial rule; P3.4 rversed rule; P3.7 2nd reversal; P3.8 3rd reversal
@@ -20,6 +34,13 @@ max_dvalue = max(arrayfun(@(m) length(cohortData(m).dvalues_trials), 1:sum(numMi
 alldvalues = NaN(max_dvalue,sum(numMice));
 for stageIDX = 1:length(stages)
     for mouseIDX = 1:length(cohortData)
+        % Identify which cohort the current mouse belongs to
+        cohortNumber = cohortIDs(mouseIDX);
+        % Skip cohort 13 if the stage is not P3.2 or P3.4
+        if (cohortNumber == 11) && ~ismember(stages{stageIDX}, {'P3.2', 'P3.4'})
+            continue;
+        end
+
         % last session stage 1
         isStage1 = contains(cohortData(mouseIDX).session_names, 'P3.1');
         sesFlag_last_stage1 = find(isStage1, 1, 'last');
@@ -59,7 +80,7 @@ for stageIDX = 1:length(stages)
         clear dvalues
     end
     
-    color_map = [[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843]; [0.9922 0.8588 0.7804]; [0.8392 0.3765 0.302]];
+    color_map = [[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843];[0.1294 0.4 0.6745]; [0.9373 0.5412 0.3843]]; %[0.9922 0.8588 0.7804]; [0.8392 0.3765 0.302];
     trials_dprime_mean = mean(alldvalues,2,'omitnan'); trials_dprime_mean(isnan(trials_dprime_mean)) =[];
     trials_dprime_std = std(alldvalues,0,2,'omitnan'); trials_dprime_std(isnan(trials_dprime_std)) =[];
     curve1 = trials_dprime_mean + trials_dprime_std;
@@ -95,4 +116,4 @@ ylabel('d prime')
 yline([1.65, 1.65],'Color','black','LineStyle','--')
 %yline([0, 0],'Color',[.7 .7 .7],'LineStyle','--')
 title ('Population performance over trials')
-%legend
+legend('','Initial rule','','','Reversed rule','','','2nd reversal (initial rule)','','','3rd reversal (reversed rule)','Location','best','Box','off')
