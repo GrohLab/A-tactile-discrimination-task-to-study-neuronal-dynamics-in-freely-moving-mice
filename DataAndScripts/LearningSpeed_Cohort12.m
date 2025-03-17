@@ -42,10 +42,10 @@ speed_max = arrayfun(@(s) max(speeds(s,:)),1:height(speeds));
 for i = 2:height(speeds)
     if i == 2
         [~,p_paired,ci,stats] = ttest(speeds(1,:), speeds(i,:));
-        plotStatistics(p_paired, max(speed_max)+i*100, 1, i)
+        plotStatistics(p_paired, max(speed_max)+i*100, 1, i, [])
     else
         [~,p_paired,ci,stats] = ttest(speeds(2,:), speeds(i,:));
-        plotStatistics(p_paired, max(speed_max)+i*100, 2, i)
+        plotStatistics(p_paired, max(speed_max)+i*100, 2, i, [])
     end
 end
 

@@ -45,4 +45,4 @@ yline([1.65, 1.65],'Color','black','LineStyle','--')
 xticklabels({'Backlights on', 'Backlights off'})
 title('Population performance with and without backlights')
 max_dprime = max(max(alldprime));
-plotStatistics(min(p_paired),max_dprime,1,2)
+plotStatistics(min(p_paired),max_dprime,1,2,'k')

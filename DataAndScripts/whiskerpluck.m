@@ -47,4 +47,4 @@ yline([1.65, 1.65],'Color','black','LineStyle','--')
 yline([0, 0],'Color',[.7 .7 .7],'LineStyle','--')
 
 dprime_max = max(arrayfun(@(s) max(whiskerpluck_table(whiskerpluck_table(:,2) == s, 1)), [-1 1]));
-plotStatistics(p_paired,max(dprime_max),1,2)
+plotStatistics(p_paired,max(dprime_max),1,2,'k')

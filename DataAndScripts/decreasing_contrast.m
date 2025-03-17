@@ -28,6 +28,13 @@ for mf = mouseflag
     end
 end
 
+%% statistics
+for stageIDX = 1:length(stages)
+    stageflag = arrayfun(@(s) strcmp(table_last_four{s,2},stages(stageIDX)),1:length(table_last_four));
+    [h,pp] = ttest([table_last_four{stageflag,4}]);
+    p(stageIDX) = pp;
+end
+
 %% plot data
 figure; hold on; 
 boxchart(categorical(table_last_four(:,2)), [table_last_four{:,4}]','BoxFaceColor', 'k','MarkerStyle','none','MarkerColor','k')
@@ -38,5 +45,8 @@ xlabel('Contrast [mm]')
 ylabel('d prime')
 yline([1.65, 1.65],'Color','black','LineStyle','--')
 yline([0, 0],'Color',[.7 .7 .7],'LineStyle','--')
+for stageIDX = 1:length(p)
+    plotStatistics(p(stageIDX),max([table_last_four{:,4}]),stageIDX,[])
+end
 
 %savefig(f1, fullfile('Z:\Josephine\Master-Thesis_Figures','Performance_over_contrast.fig'))
