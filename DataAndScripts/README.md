@@ -4,6 +4,7 @@
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | analyzePositionalData.m               | Loads the positional data from the RawData directory and generates a heat map of positional data and mean velocity plots. |
 | Backlights.m                          | Compares population performance with and without backlights.                                                              |
+| CNN_decoder_forCalciumImaging.m       | Code to train the CNN decoder and plot relevant figures in S3.                                                            |
 | decreasing_contrast.m                 | Compares population performance across contrasts.                                                                         |
 | ExpNaive_TrialCount.m                 | Counts trials per animal for initial and reversed rule.                                                                   |
 | Extinction.m                          | Compares population performance before and after extinction.                                                              |
@@ -15,5 +16,5 @@
 | Population_Analysis.m                 | Plots population performance over trials.                                                                                 |
 | Population_Analysis_Cohort12.m        | Plots population performance over trials for only cohort 12 (repeated rule switches).                                     |
 | Population_Analysis_Cohort16.m        | Plots population performance over trials for only cohort 16 (contrast 14 mm and 16 mm).                                   |
-| Scripts_for_figures_calciumimaging.m  | Plot all the figures for Figure 5 calcium imaging data                                                                    |
+| Scripts_for_figures_calciumimaging.m  | Plot all the figures for Figure 3 calcium imaging data                                                                    |
 | whiskerpluck.m                        | Compares population performance before and after whiskerpluck.                                                            |
