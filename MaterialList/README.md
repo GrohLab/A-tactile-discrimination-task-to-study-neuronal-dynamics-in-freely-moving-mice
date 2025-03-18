@@ -33,6 +33,7 @@
 | Xylazine (Xylavet® 20 mg/ml)                                                                 | CP-Pharma Handelsgesellschaft mbH, Burgdorf, Germany |
 | Lidocaine (Xylocaine® 1%)                                                                    | Aspen Pharma Trading Limited, Ireland           |
 | ssAAV-1/2-hSyn1-chI-GCaMP6f-WPRE-SV40p(A)                                                    | Viral Vector Facility (VVF), Zürich, Switzerland|
+| N-Methyl-D-aspartic acid, 98% (#AC329190500)                                                 | Thermo Fisher Scientific Inc., MA, USA          |
 
 #### Cameras
 | Product                                                                                      | Supplier                                        |
