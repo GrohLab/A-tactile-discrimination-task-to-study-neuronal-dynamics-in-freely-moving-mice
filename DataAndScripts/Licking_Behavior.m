@@ -71,16 +71,16 @@ end
 [~, int_go] = plot_patch(allgosuc_initial,all_ses_ini,[0.4660 0.6740 0.1880],30,fig_1);
 
 % welch test for statistical comparison
-h = ttest2(int_nogo, int_go); h(isnan(h)) = 0; h = logical(h);
+[hi,pi] = ttest2(int_nogo, int_go); hi(isnan(hi)) = 0; hi = logical(hi);
 x_vals = (1:30)/30;
-y_vals = ones(1,length(h))*0.05;
+y_vals = ones(1,length(hi))*0.05;
 
-if all(h)
+if all(hi)
     % If h is all 1, plot the entire line
     plot(x_vals, y_vals, ':k', 'LineWidth', 1.5);
 else
     % Find where h changes (from 0 to 1 or 1 to 0)
-    change_indices = find(diff([0 h 0]));  % Add 0s to start and end to detect transitions
+    change_indices = find(diff([0 hi 0]));  % Add 0s to start and end to detect transitions
     % Loop through each segment of consecutive h == 1 values and plot the line
     for i = 1:2:length(change_indices)-1
         start_idx = change_indices(i);
@@ -99,16 +99,16 @@ set(gca,'Box','off','Color','none')
 [~, int_go] = plot_patch(allgosuc_switched,all_ses_swi,[0.4660 0.6740 0.1880],40,fig_2);
 
 % welch test for statistical comparison
-h = ttest2(int_nogo, int_go); h(isnan(h)) = 0; h = logical(h);
+[hr,pr] = ttest2(int_nogo, int_go); hr(isnan(hr)) = 0; hr = logical(hr);
 x_vals = (1:40)/40;
-y_vals = ones(1,length(h))*0.05;
+y_vals = ones(1,length(hr))*0.05;
 
-if all(h)
+if all(hr)
     % If h is all 1, plot the entire line
     plot(x_vals, y_vals, ':k', 'LineWidth', 1.5);
 else
     % Find where h changes (from 0 to 1 or 1 to 0)
-    change_indices = find(diff([0 h 0]));  % Add 0s to start and end to detect transitions
+    change_indices = find(diff([0 hr 0]));  % Add 0s to start and end to detect transitions
     % Loop through each segment of consecutive h == 1 values and plot the line
     for i = 1:2:length(change_indices)-1
         start_idx = change_indices(i);
@@ -141,8 +141,8 @@ for trialIDX = 1:length(stages)
 end
 
 % welch test to neutral state
-h = ttest2(allgosuc_neu', allneutral'); h_struct.go = logical(h);
-h = ttest2((1-allnogosuc_neu)', allneutral'); h_struct.nogo = logical(h);
+[hg,pg] = ttest2(allgosuc_neu', allneutral'); h_struct.go = logical(hg);
+[hn,pn] = ttest2((1-allnogosuc_neu)', allneutral'); h_struct.nogo = logical(hn);
 x_vals = 1:8; y_vals = (ones(1,8))*0.05;
 
 struct_fields = fields(h_struct);
